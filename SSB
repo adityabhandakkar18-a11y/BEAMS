@@ -1,0 +1,24 @@
+# day01_reactions.py
+# x: distance of point load from left support (m)
+# w: UDL over full span (kN/m)
+# l: span length (m)
+# P: point load (kN)
+
+l = float(input("Span length l (m): "))
+w = float(input("UDL w (kN/m): "))
+P = float(input("Point load P (kN): "))
+x = float(input("Distance of P from left support x (m): "))
+
+# input checks
+if l <= 0:
+    raise ValueError("Span must be positive")
+if not (0 <= x <= l):
+    raise ValueError("Point load must lie on the beam")
+
+total_load = P + w * l
+RB = (P * x + w * l * l / 2) / l     # moments about A
+RA = total_load - RB                 # vertical equilibrium
+
+print(f"RA = {RA:.2f} kN")
+print(f"RB = {RB:.2f} kN")
+print("Equilibrium check:", abs(RA + RB - total_load) < 1e-9)
